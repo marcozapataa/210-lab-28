@@ -6,6 +6,7 @@
 #include <ctime>
 #include "Goat.h"
 #include <algorithm>
+#include <numeric>
 using namespace std;
 
 const int SZ_NAMES = 200, SZ_COLORS = 25, MAX_AGE = 20;
@@ -18,6 +19,7 @@ int main_menu();
 void for_each_goat(const set<Goat>& trip);
 void any_of_goat(const set<Goat>& trip);
 void all_of_goat(const set<Goat>& trip);
+void accumulate_goat(const set<Goat>& trip);
 
 int main() {
     srand(time(0));
@@ -62,6 +64,9 @@ int main() {
         else if (choice == 6) {
             all_of_goat(trip);
         }
+        else if (choice == 7) {
+            accumulate_goat(trip);
+        }
         cout << endl;
         
 
@@ -85,6 +90,7 @@ int main_menu() {
     cout << "[4] Display goat names (for_each)\n";
     cout << "[5] Check for goats older than specific age (any_of)\n";
     cout << "[6] Check all goats are younger than specific age (all_of)\n";
+    cout << "[7] Average age of goats (accumulate)\n";
     cout << "[12] Quit\n";
     cout << "Choice --> ";
 
@@ -213,4 +219,19 @@ void all_of_goat(const set<Goat>& trip) {
     } else {
         cout << "\nNot all goats are younger than " << age << "." << endl;
     }
+}
+
+void accumulate_goat(const set<Goat>& trip) {
+    if (trip.empty()) {
+        cout << "\nThere are no goats in the trip." << endl;
+        return;
+    }
+
+    int total = accumulate(trip.begin(), trip.end(), 0, [](int total, const Goat& goat) {
+        return total + goat.get_age();
+    });
+
+    double average = static_cast<double>(total) / trip.size();
+    cout << "\nAverage goat age is " << fixed << setprecision(2) 
+         << average << " years" << endl;
 }
