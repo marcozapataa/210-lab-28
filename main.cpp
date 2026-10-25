@@ -23,6 +23,7 @@ void any_of_goat(const set<Goat>& trip);
 void all_of_goat(const set<Goat>& trip);
 void accumulate_goat(const set<Goat>& trip);
 void copy_goat(const set<Goat>& trip);
+void transform_goat(const set<Goat>& trip);
 
 int main() {
     srand(time(0));
@@ -73,6 +74,9 @@ int main() {
         else if (choice == 8) {
             copy_goat(trip);
         }
+        else if (choice == 9) {
+            transform_goat(trip);
+        }
         cout << endl;
         
 
@@ -98,6 +102,7 @@ int main_menu() {
     cout << "[6] Check all goats are younger than specific age (all_of)\n";
     cout << "[7] Average age of goats (accumulate)\n";
     cout << "[8] Copy goats into a vector (copy)\n";
+    cout << "[9] Create a list of goat names (transform)\n";
     cout << "[12] Quit\n";
     cout << "Choice --> ";
 
@@ -263,4 +268,27 @@ void copy_goat(const set<Goat>& trip) {
              << goat.get_age() << ", "
              << goat.get_color() << ")" << endl;
     }
+}
+
+void transform_goat(const set<Goat>& trip) {
+    if (trip.empty()) {
+        cout << "\nThere are no goats in the trip." << endl;
+        return;
+    }
+
+    // create vector to store goat names
+    vector<string> goatNames;
+
+    // extract names using transform
+    transform(trip.begin(), trip.end(), back_inserter(goatNames), [](const Goat& goat) {
+        return goat.get_name();
+    });
+
+    // display the transformed names
+    cout << "\nGoat names (transform):" << endl;
+
+    for (const string& name : goatNames) {
+        cout << name << endl;
+    }
+
 }
