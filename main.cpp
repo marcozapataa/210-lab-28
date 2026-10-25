@@ -9,6 +9,7 @@
 #include <numeric>
 #include <vector>
 #include <iterator>
+#include <string>
 using namespace std;
 
 const int SZ_NAMES = 200, SZ_COLORS = 25, MAX_AGE = 20;
@@ -25,6 +26,7 @@ void accumulate_goat(const set<Goat>& trip);
 void copy_goat(const set<Goat>& trip);
 void transform_goat(const set<Goat>& trip);
 void lower_bound_goat(const set<Goat>& trip);
+void upper_bound_goat(const set<Goat>& trip);
 
 int main() {
     srand(time(0));
@@ -81,6 +83,9 @@ int main() {
         else if (choice == 10) {
             lower_bound_goat(trip);
         }
+        else if (choice == 11) {
+            upper_bound_goat(trip);
+        }
         cout << endl;
         
 
@@ -108,6 +113,7 @@ int main_menu() {
     cout << "[8] Copy goats into a vector (copy)\n";
     cout << "[9] Create a list of goat names (transform)\n";
     cout << "[10] Find the first goat at or after a name (lower_bound)\n";
+    cout << "[11] Find the first goat after a name (upper_bound)\n";
     cout << "[12] Quit\n";
     cout << "Choice --> ";
 
@@ -248,7 +254,9 @@ void accumulate_goat(const set<Goat>& trip) {
         return total + goat.get_age();
     });
 
+    // get average
     double average = static_cast<double>(total) / trip.size();
+    // display average
     cout << "\nAverage goat age is " << fixed << setprecision(2) 
          << average << " years" << endl;
 }
@@ -318,5 +326,28 @@ void lower_bound_goat(const set<Goat>& trip) {
              << it->get_color() << ")" << endl;
     } else {
         cout << "\nNo goat found at or after " << name << "." << endl;
+    }
+}
+
+void upper_bound_goat(const set<Goat>& trip) {
+    if (trip.empty()) {
+        cout << "\nThere are no goats in the trip." << endl;
+        return;
+    }
+
+    string name;
+    cout << "Enter a goat name: ";
+    cin >> name;
+
+    // find the first goat alphabetically after the entered name
+    auto it = upper_bound(trip.begin(), trip.end(), Goat(name));
+
+    if (it != trip.end()) {
+        cout << "\nFirst goat after " << name << ": "
+             << it->get_name() << "("
+             << it->get_age() << ", "
+             << it->get_color() << ")" << endl;
+    } else {
+        cout << "\nNo goat found after " << name << "." << endl;
     }
 }
