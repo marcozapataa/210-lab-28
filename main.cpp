@@ -7,6 +7,8 @@
 #include "Goat.h"
 #include <algorithm>
 #include <numeric>
+#include <vector>
+#include <iterator>
 using namespace std;
 
 const int SZ_NAMES = 200, SZ_COLORS = 25, MAX_AGE = 20;
@@ -20,6 +22,7 @@ void for_each_goat(const set<Goat>& trip);
 void any_of_goat(const set<Goat>& trip);
 void all_of_goat(const set<Goat>& trip);
 void accumulate_goat(const set<Goat>& trip);
+void copy_goat(const set<Goat>& trip);
 
 int main() {
     srand(time(0));
@@ -67,6 +70,9 @@ int main() {
         else if (choice == 7) {
             accumulate_goat(trip);
         }
+        else if (choice == 8) {
+            copy_goat(trip);
+        }
         cout << endl;
         
 
@@ -91,6 +97,7 @@ int main_menu() {
     cout << "[5] Check for goats older than specific age (any_of)\n";
     cout << "[6] Check all goats are younger than specific age (all_of)\n";
     cout << "[7] Average age of goats (accumulate)\n";
+    cout << "[8] Copy goats into a vector (copy)\n";
     cout << "[12] Quit\n";
     cout << "Choice --> ";
 
@@ -234,4 +241,26 @@ void accumulate_goat(const set<Goat>& trip) {
     double average = static_cast<double>(total) / trip.size();
     cout << "\nAverage goat age is " << fixed << setprecision(2) 
          << average << " years" << endl;
+}
+
+void copy_goat(const set<Goat>& trip) {
+    if (trip.empty()) {
+        cout << "\nThere are no goats in the trip." << endl;
+        return;
+    }
+
+    // create empty vector
+    vector<Goat> copiedGoats;
+
+    // copy goats from set into the vector
+    copy(trip.begin(), trip.end(), back_inserter(copiedGoats));
+
+    // display copied goats
+    cout << "\nCopied goats: " << endl;
+
+    for (const Goat& goat : copiedGoats) {
+        cout << goat.get_name() << " ("
+             << goat.get_age() << ", "
+             << goat.get_color() << ")" << endl;
+    }
 }
