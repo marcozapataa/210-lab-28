@@ -16,6 +16,7 @@ void add_goat(set<Goat> &trip, string [], string []);
 void display_trip(set<Goat> trip);
 int main_menu();
 void for_each_goat(const set<Goat>& trip);
+void any_of_goat(const set<Goat>& trip);
 
 int main() {
     srand(time(0));
@@ -54,6 +55,9 @@ int main() {
             cout << endl;
             for_each_goat(trip);
         }
+        else if (choice == 5) {
+            any_of_goat(trip);
+        }
         cout << endl;
         
 
@@ -75,6 +79,7 @@ int main_menu() {
     cout << "[2] Delete a goat\n";
     cout << "[3] List goats\n";
     cout << "[4] Display goat names (for_each)\n";
+    cout << "[5] Check for goats older than specific age (any_of)\n";
     cout << "[12] Quit\n";
     cout << "Choice --> ";
 
@@ -161,4 +166,25 @@ void for_each_goat(const set<Goat>& trip) {
     for_each(trip.begin(), trip.end(), [](const Goat& goat) {
         cout << "Goat name: " << goat.get_name() << endl;
     });
+}
+
+void any_of_goat(const set<Goat>& trip) {
+    if (trip.empty()) {
+        cout << "\nThere are no goats in the trip." << endl;
+        return;
+    }
+
+    int age;
+    cout << "Enter age: ";
+    cin >> age;
+
+    bool found = any_of(trip.begin(), trip.end(), [age](const Goat& goat) {
+        return goat.get_age() > age;
+    });
+
+    if (found) {
+        cout << "\nAt least one goat is older than " << age << "." << endl;
+    } else {
+        cout << "\nNo goats are older than " << age << "." << endl;
+    }
 }
