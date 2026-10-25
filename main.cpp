@@ -233,7 +233,7 @@ void all_of_goat(const set<Goat>& trip) {
     cout << "Enter age: ";
     cin >> age;
 
-    bool found = any_of(trip.begin(), trip.end(), [age](const Goat& goat) {
+    bool found = all_of(trip.begin(), trip.end(), [age](const Goat& goat) {
         return goat.get_age() < age;
     });
 
@@ -321,7 +321,7 @@ void lower_bound_goat(const set<Goat>& trip) {
 
     if (it != trip.end()) {
         cout << "\nFirst goat at or after " << name << ": "
-             << it->get_name() << "("
+             << it->get_name() << " ("
              << it->get_age() << ", "
              << it->get_color() << ")" << endl;
     } else {
@@ -344,7 +344,7 @@ void upper_bound_goat(const set<Goat>& trip) {
 
     if (it != trip.end()) {
         cout << "\nFirst goat after " << name << ": "
-             << it->get_name() << "("
+             << it->get_name() << " ("
              << it->get_age() << ", "
              << it->get_color() << ")" << endl;
     } else {
