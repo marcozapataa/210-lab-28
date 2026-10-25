@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "Goat.h"
+#include <algorithm>
 using namespace std;
 
 const int SZ_NAMES = 200, SZ_COLORS = 25, MAX_AGE = 20;
@@ -14,6 +15,7 @@ void delete_goat(set<Goat> &trip);
 void add_goat(set<Goat> &trip, string [], string []);
 void display_trip(set<Goat> trip);
 int main_menu();
+void for_each_goat(const set<Goat>& trip);
 
 int main() {
     srand(time(0));
@@ -48,10 +50,14 @@ int main() {
             cout << endl;
             display_trip(trip);
         }
+        else if (choice == 4) {
+            cout << endl;
+            for_each_goat(trip);
+        }
         cout << endl;
         
 
-        again = (choice != 4);
+        again = (choice != 12);
     }
     while (again);
 
@@ -68,13 +74,14 @@ int main_menu() {
     cout << "[1] Add a goat\n";
     cout << "[2] Delete a goat\n";
     cout << "[3] List goats\n";
-    cout << "[4] Quit\n";
+    cout << "[4] Display goat names (for_each)\n";
+    cout << "[12] Quit\n";
     cout << "Choice --> ";
 
     int choice;
     cin >> choice;
 
-    while (choice < 1 || choice > 4) {
+    while (choice < 1 || choice > 12) {
         cout << endl;
         cout << "Invalid choice. Try again: ";
         cin >> choice;
@@ -144,4 +151,14 @@ void delete_goat(set<Goat>& trip) {
     trip.erase(it);
     cout << endl;
     cout << "Deleted goat successfully" << endl;
+}
+
+void for_each_goat(const set<Goat>& trip) {
+    if (trip.empty()) {
+        cout << "There are no goats in the trip." << endl;
+        return;
+    }
+    for_each(trip.begin(), trip.end(), [](const Goat& goat) {
+        cout << "Goat name: " << goat.get_name() << endl;
+    });
 }
